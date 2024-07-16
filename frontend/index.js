@@ -8,7 +8,10 @@ function moduleProject1() {
   // 👉 TASK 1 - Add a "widget" class name to widgets so CSS kicks in
   //  ✨ add your code here
   const widgetTag = document.querySelectorAll('section div');
-  widgetTag.forEach(widget => widget.classList.add('widget'));
+  widgetTag.forEach((widget, idx) => {
+    widget.classList.add('widget');
+    widget.setAttribute('tabindex', idx + 1)
+  });
 
   // 👉 TASK 2 - Build a "Quote of the Day" widget
   //  ✨ add your code here
@@ -64,7 +67,34 @@ function moduleProject1() {
 
   // 👉 TASK 5 - Build a "Friends" widget
   //  ✨ add your code here
+  const randomPerson = people[Math.floor(Math.random() * people.length)];
+  console.log(randomPerson);
+  const personPara = document.createElement('p');
+  document.querySelector('.friends').appendChild(personPara)
+  const year = randomPerson.dateOfBirth.split('-')[0];
+  let friendsSentence = `${randomPerson.fname} ${randomPerson.lname} was born in ${year} and `
 
+  if (!randomPerson.friends.length) {
+    friendsSentence += 'has no friends'
+  } else {
+    // friendsSentence += 'is friends with others'
+    for ( let idx = 0; idx < randomPerson.friends.length; idx++) {
+      const friendID = randomPerson.friends[idx]
+      const friend = people.find(p => p.id === friendID);
+      const fullName = `${friend.fname} ${friend.lname}`
+      console.log(fullName);
+      let isLastIdx = idx === randomPerson.friends.length - 1
+      let isNextToLastIdx = idx === randomPerson.friends.length - 2
+      if (isLastIdx) {
+        friendsSentence += `${fullName}.`
+      } else if (isNextToLastIdx) {
+        friendsSentence += `${fullName} and `
+      } else {
+        friendsSentence += `${fullName}, `
+      }
+    }
+  }
+  personPara.textContent = friendsSentence
   // 👉 TASK 6 - Make it so user can tab through the widgets
   //  ✨ add your code here
 
